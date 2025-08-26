@@ -17,19 +17,33 @@ const Button = ({ text, onClick }) => {
   );
 }
 
+const Anecdote = ({ anecdote, votes }) => {
+  return (
+    <div>
+      <p>{anecdote}</p>
+      <p>Has {votes} votes.</p>
+    </div>
+  );
+}
+
 const App = () => {
   // Get a random integer function, from 0 (inclusive) to max (inclusive).
   const randomInt = (max) => Math.floor(Math.random() * max);
   
-  const newAnecdote = (max) => {
-    return () => {
-      let r = 0
-      do {
-        r = randomInt(max);
-      } while (r === selected);
-      setSelected(r);
-    }
-  }
+  const newAnecdote = (max) => () => {
+    let r = 0
+    do {
+      r = randomInt(max);
+    } while (r === selected);
+    setSelected(r);
+  };
+
+  const voteUp = () => {
+    // Create a copy *of each values*, and not of the whole array in one time.
+    let next_votes = [...votes];
+    next_votes[selected] += 1;
+    setVotes(next_votes);
+  };
 
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -41,18 +55,16 @@ const App = () => {
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
     'The only way to go fast, is to go well.'
   ];
+  const [ votes, setVotes ] = useState(new Uint8Array(anecdotes.length));
   const [selected, setSelected] = useState(randomInt(anecdotes.length));
-  
-  
 
-  console.log(`Comp.App - Index selected=${selected}, text=${anecdotes[selected]}`);
+  console.log(`Comp.App - Index selected=${selected}, text=${anecdotes[selected]}, votes=`, votes);
   return (
     <div>
       <Title />
-      <div>
-        {anecdotes[selected]}
-      </div>
-      <Button text="New anectode." onClick={newAnecdote(anecdotes.length)}/>
+      <Anecdote anecdote={anecdotes[selected]} votes={votes[selected]} />
+      <Button text="New anectode." onClick={newAnecdote(anecdotes.length)} />
+      <Button text="Vote this anectode!" onClick={voteUp} />
     </div>
   );
 };
