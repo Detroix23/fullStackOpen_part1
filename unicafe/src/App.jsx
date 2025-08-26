@@ -7,7 +7,7 @@ const Title = () => {
       <h2>Give feedback.</h2>
     </>
   );
-}
+};
 
 const RatingButton = ({ onClick, text }) => {
   console.log(`Comp.RatingButton - Clicked '${text}'`);
@@ -16,48 +16,59 @@ const RatingButton = ({ onClick, text }) => {
       {text}
     </button>
   );
-}
+};
 
 const ReviewMeter = ({ review, value }) => {
   console.log(`Comp.ReviewMeter - review=${review}, value=${value}`);
   return (
     <p>{review}: {value}</p>
   );
-}
+};
 
 const ReviewAverageTotal = ({ reviews }) => {
-  let total = reviews.good + reviews.neutral + reviews.bad;
-  let average = (reviews.good * 1 + reviews.neutral * 0 + reviews.bad * -1) / total;
+  const total = reviews.good + reviews.neutral + reviews.bad;
+  const average = (reviews.good * 1 + reviews.neutral * 0 + reviews.bad * -1) / total;
 
   console.log(`Comp.ReviewAverageTotal - average=${average}, reviews=`, reviews);
   return (
     <p>Average: {average}</p>
   );
-}
+};
 
 const ReviewAveragePositive = ({ reviews }) => {
-  let total = reviews.good + reviews.neutral + reviews.bad;
-  let average = reviews.good / total;
+  const total = reviews.good + reviews.neutral + reviews.bad;
+  const average = reviews.good / total;
 
   console.log(`Comp.ReviewAveragePositive - average=${average}, reviews=`, reviews);
   return (
     <p>Positive: {average}</p>
   );
-}
+};
 
 const Statistics = ({ reviews }) => {
+  const total_reviews = reviews.good + reviews.neutral + reviews.bad;
+
   console.log(`Comp.Statistics - reviews=`, reviews);
-  return (
-    <>
-      <h2>Statistics</h2>
-      <ReviewMeter review={"Good"} value={reviews.good}/>
-      <ReviewMeter review={"Neutral"} value={reviews.neutral}/>
-      <ReviewMeter review={"Bad"} value={reviews.bad}/>
-      <ReviewAverageTotal reviews={reviews} />
-      <ReviewAveragePositive reviews={reviews} />
-    </>
-  );
-}
+  if (total_reviews === 0) {
+    return (
+      <>
+        <h2>Statistics.</h2>
+        <p>No feedback given, for now.</p>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <h2>Statistics.</h2>
+        <ReviewMeter review={"Good"} value={reviews.good}/>
+        <ReviewMeter review={"Neutral"} value={reviews.neutral}/>
+        <ReviewMeter review={"Bad"} value={reviews.bad}/>
+        <ReviewAverageTotal reviews={reviews} />
+        <ReviewAveragePositive reviews={reviews} />
+      </>
+    );
+  }
+};
 
 const App = () => {
   // save clicks of each button to its own state
@@ -84,6 +95,6 @@ const App = () => {
       } />
     </div>
   );
-}
+};
 
 export default App;
