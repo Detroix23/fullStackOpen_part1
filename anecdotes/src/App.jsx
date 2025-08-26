@@ -17,11 +17,20 @@ const Button = ({ text, onClick }) => {
   );
 }
 
-const Anecdote = ({ anecdote, votes }) => {
+const Anecdote = ({ anecdote, vote }) => {
   return (
     <div>
       <p>{anecdote}</p>
-      <p>Has {votes} votes.</p>
+      <p>Has {vote} votes.</p>
+    </div>
+  );
+}
+
+const Podium = ({ anecdote, vote }) => {
+  return(
+    <div>
+      <h2>Podium of anecdotes</h2>
+      <Anecdote anecdote={anecdote} vote={vote} />
     </div>
   );
 }
@@ -58,13 +67,23 @@ const App = () => {
   const [ votes, setVotes ] = useState(new Uint8Array(anecdotes.length));
   const [selected, setSelected] = useState(randomInt(anecdotes.length));
 
+  let max_votes = 0;
+  let max_index = 0;
+  for (let i = 0; i < votes.length; i++) {
+    if (votes[i] > max_votes) {
+      max_votes = votes[i];
+      max_index = i;
+    } 
+  }
+
   console.log(`Comp.App - Index selected=${selected}, text=${anecdotes[selected]}, votes=`, votes);
   return (
     <div>
       <Title />
-      <Anecdote anecdote={anecdotes[selected]} votes={votes[selected]} />
+      <Anecdote anecdote={anecdotes[selected]} vote={votes[selected]} />
       <Button text="New anectode." onClick={newAnecdote(anecdotes.length)} />
       <Button text="Vote this anectode!" onClick={voteUp} />
+      <Podium anecdote={anecdotes[max_index]} vote={max_votes} />
     </div>
   );
 };
