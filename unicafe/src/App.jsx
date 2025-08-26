@@ -18,35 +18,14 @@ const RatingButton = ({ onClick, text }) => {
   );
 };
 
-const ReviewMeter = ({ review, value }) => {
-  console.log(`Comp.ReviewMeter - review=${review}, value=${value}`);
-  return (
-    <p>{review}: {value}</p>
-  );
-};
+const StatisticsLine = ({ text, value }) => <li>{text}: {value}</li>
+const StatisticsPercentage = ({ text, value }) => <li>{text}: {value * 100}%</li>
 
-const ReviewAverageTotal = ({ reviews }) => {
-  const total = reviews.good + reviews.neutral + reviews.bad;
-  const average = (reviews.good * 1 + reviews.neutral * 0 + reviews.bad * -1) / total;
-
-  console.log(`Comp.ReviewAverageTotal - average=${average}, reviews=`, reviews);
-  return (
-    <p>Average: {average}</p>
-  );
-};
-
-const ReviewAveragePositive = ({ reviews }) => {
-  const total = reviews.good + reviews.neutral + reviews.bad;
-  const average = reviews.good / total;
-
-  console.log(`Comp.ReviewAveragePositive - average=${average}, reviews=`, reviews);
-  return (
-    <p>Positive: {average}</p>
-  );
-};
 
 const Statistics = ({ reviews }) => {
   const total_reviews = reviews.good + reviews.neutral + reviews.bad;
+  const average_good = reviews.good / total_reviews;
+  const average_total = (reviews.good * 1 + reviews.neutral * 0 + reviews.bad * -1) / total_reviews;
 
   console.log(`Comp.Statistics - reviews=`, reviews);
   if (total_reviews === 0) {
@@ -60,11 +39,11 @@ const Statistics = ({ reviews }) => {
     return (
       <>
         <h2>Statistics.</h2>
-        <ReviewMeter review={"Good"} value={reviews.good}/>
-        <ReviewMeter review={"Neutral"} value={reviews.neutral}/>
-        <ReviewMeter review={"Bad"} value={reviews.bad}/>
-        <ReviewAverageTotal reviews={reviews} />
-        <ReviewAveragePositive reviews={reviews} />
+        <StatisticsLine text="Good" value={reviews.good} />
+        <StatisticsLine text="Neutral" value={reviews.neutral} />
+        <StatisticsLine text="Bad" value={reviews.bad} />
+        <StatisticsLine text="Average" value={average_total} />
+        <StatisticsPercentage text="Positive" value={average_good} />
       </>
     );
   }
