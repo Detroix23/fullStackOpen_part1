@@ -1,3 +1,3 @@
-#  Anectodes
+#  Demo and trying stuff.
 
-Exercices 1.12 to 1.14.
+Nothing to see here, playground.
