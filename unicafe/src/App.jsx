@@ -18,9 +18,22 @@ const RatingButton = ({ onClick, text }) => {
   );
 };
 
-const StatisticsLine = ({ text, value }) => <li>{text}: {value}</li>
-const StatisticsPercentage = ({ text, value }) => <li>{text}: {value * 100}%</li>
-
+const StatisticsLine = ({ text, value }) => {
+  return(
+    <tr>
+      <td>{text}:</td>
+      <td>{value}</td>
+    </tr>
+  );
+};
+const StatisticsPercentage = ({ text, value }) => {
+  return (
+    <tr>
+      <td>{text}:</td>
+      <td>{value * 100}%</td>
+    </tr>
+  );
+};
 
 const Statistics = ({ reviews }) => {
   const total_reviews = reviews.good + reviews.neutral + reviews.bad;
@@ -39,11 +52,15 @@ const Statistics = ({ reviews }) => {
     return (
       <>
         <h2>Statistics.</h2>
-        <StatisticsLine text="Good" value={reviews.good} />
-        <StatisticsLine text="Neutral" value={reviews.neutral} />
-        <StatisticsLine text="Bad" value={reviews.bad} />
-        <StatisticsLine text="Average" value={average_total} />
-        <StatisticsPercentage text="Positive" value={average_good} />
+        <table>
+          <tbody>
+            <StatisticsLine text="Good" value={reviews.good} />
+            <StatisticsLine text="Neutral" value={reviews.neutral} />
+            <StatisticsLine text="Bad" value={reviews.bad} />
+            <StatisticsLine text="Average" value={average_total} />
+            <StatisticsPercentage text="Positive" value={average_good} />
+          </tbody>
+        </table>
       </>
     );
   }
